@@ -1,0 +1,420 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Evolution Simulator</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			background-color: #CCCCCC;
+			overflow: hidden;
+			font-family: arial;
+		}
+	
+		#canvasContainer {
+		   padding-top: 15px;
+		   padding-left: 15px;
+		   padding-right: 15px;
+		   text-align: center;
+		}
+
+		#selected_creature_viewmodel {
+		
+			background-color: #FFFFFF;
+		
+		}
+		
+		#graph1 {
+		
+			background-color: #FFFFFF;
+		
+		}
+
+		#gameCanvas {
+			padding: 0;
+			display: inline;
+			position: inline;
+			background-color: #FFFFFF;
+			margin: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			top: 0;
+		}
+		
+		#toolbar {
+		
+			width: 50%;
+			float: left;
+			overflow: auto;
+			
+		}
+		
+		#menu {
+			height: 100%;
+			padding-left: 15px;
+			padding-right: 15px;
+		}
+		
+		#tools {
+		
+			overflow:auto;
+			height: 100%;
+		
+		}
+		
+		#toolbar2 {
+		
+			width: 50%;
+			float: right;
+			height: 100%;
+			
+		}
+		
+		#menu2 {
+			height: 100%;
+			float: right;
+			overflow: auto;
+			padding-left: 15px;
+			padding-right: 15px;
+		}
+		
+		#bottom {
+		
+			overflow: display;
+		}
+		
+		#tools2 {
+			
+			padding-left: 15px;
+			overflow:auto;
+			height: 100%;
+		
+		}
+		
+		
+		.selected {
+		
+			background-color: #0300FF;
+			color: #FFFFFF;
+			border: none;
+			font-size: 20px;
+			margin-bottom: 5px;
+			line-height: 30px;
+		
+		}
+		
+		.unselected {
+		
+			background-color: #FFFFFF;
+			color: black;
+			border: none;
+			font-size: 20px;
+			margin-bottom: 5px;
+			line-height: 30px;
+		
+		}
+		
+		.tooltipbtn {
+		
+			background-color: #FFFFFF;
+			color: black;
+			border: none;
+			width: auto;
+		}
+		
+		.inputBox {
+		
+		
+		}
+		
+		.slider {
+			-webkit-appearance: none;
+			width: 33%;
+			height: 15px;
+			border-radius: 5px;  
+			background: #FFFFFF;
+			outline: none;
+			opacity: 1;
+			-webkit-transition: .2s;
+			transition: opacity .2s;
+		}
+
+		.slider::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			appearance: none;
+			width: 15px;
+			height: 15px;
+			border-radius: 50%; 
+			background: #0300FF;
+			cursor: pointer;
+			
+		}
+
+		.slider::-moz-range-thumb {
+			width: 15px;
+			height: 15px;
+			border-radius: 50%;
+			background: #0300FF;
+			cursor: pointer;
+		}
+
+		.custcheck {
+		
+			background: #FFFFFF;
+		
+		}
+		
+		.custcheck input:checked {
+		
+			background: #FFFFFF;
+		
+		}
+		
+		#title {
+			text-align: center;
+			color: #0300FF;
+			font-size: 50px;
+			-webkit-text-stroke: 1px #FFFFFF;
+			line-height: 0;
+		}
+		
+		#titleName {
+			text-align: center;
+			color: #FFFFFF;
+			line-height: 0;
+			font-size: 12.5px;
+		}
+		
+		#watermark {
+		
+			width:100%;
+			position: absolute;
+			text-align: center;
+			margin: 0;
+			font-size: 10px;
+			color: gray;
+		
+		}
+		
+		button {
+		
+			width: 100%;
+			background-color: #FFFFFF;
+		
+		}
+		
+	</style>
+	<link rel="icon" href="./resources/icon.ico">
+	<script defer src='./resources/main.js'></script>
+</head>
+<body>
+	
+	<p id='watermark'>Evolution Simulator by Bashir Flores <i>(2021)</i></p>
+
+	<div id='canvasContainer'>
+		<canvas id='gameCanvas' width='1920' height='1080'></canvas>
+	</div>
+	
+	<div id='bottom'>
+	
+		<div id='toolbar'>
+			<div id='menu' style='float: left; overflow: auto;'>
+				
+				<br>
+				
+				<button id='t1_main_btn' class='selected' onclick='toolbarManager(1,"t1_main")'>Overview</button><br>
+				<button id='t1_graph_btn' class='unselected' onclick='toolbarManager(1,"t1_graph")'>Graph</button><br>	
+				<button id='t1_settings_btn' class='unselected' onclick='toolbarManager(1,"t1_settings")'>Settings</button><br>
+				<button id='t1_info_btn' class='unselected' onclick='toolbarManager(1,"t1_info")'>Info</button>
+				
+				<br>
+				
+			</div>
+			<div id='tools'>
+			
+				<div id='t1_main' style='text-align:center;'>
+
+					<h1 id='title'>Evolution Simulator</h1>
+					<h3 id='titleName'>By Bashir Flores Abusada</h3>
+					
+					<br>
+					
+					<p id='birthcount'></p>
+					<p id='deathcount'></p>
+					<p id='popcount'></p>
+					<p id='avage'></p>
+					<p id='gametime'></p>
+					
+					<br>
+				
+				</div>
+				
+				
+				<div id='t1_graph' style='display:none;'>
+				
+					<br>
+				
+					<canvas id='graph1'></canvas> <br>
+					
+					<label for='select_graph_data'>Data:</label>
+					
+					<select name='graphs' id='select_graph_data' onchange='updateDataSelect()' value='sizeData'>
+					
+						<optgroup label='Traits'>
+						
+						<option value="sizeData">Average Size (cm wide)</option>
+						<option value="speedData">Average Speed (m/s)</option>
+						<option value="senseData">Average Sight (m radius)</option>
+						<option value="pregnancyhealthData">Average Birth Min Health (%)</option>
+						
+						</optgroup>
+						
+						<optgroup label='Other'>
+						
+						<option value="ageData">Average Age (seconds)</option>
+						<option value="childrenCountData">Children per Creature</option>
+						<option value="childrenCountData2">Children per Parent</option>
+						<option value="populationData">Population</option>
+					
+						</optgroup>
+					
+					</select><br><br>
+					
+					<input style='width=auto' id='graph_rate' type='range' class='slider' min='0.5' max='5' step='0.5' value='2' oninput='graphSettingsUpdate();'>
+					<label id='graph_rate_lbl' for='graph_rate'>Data Update Time (2s)</label><br>					
+					
+					<input style='width=auto' id='data_limit' type='range' class='slider' min='50' max='1000' step='50' value='200' oninput='graphSettingsUpdate();'>
+					<label id='data_limit_lbl' for='data_limit'>Data Limit (200)</label><br>
+					
+					<input style='width=auto' id='graph_range' type='range' class='slider' min='50' max='1000' step='50' value='100' oninput='graphSettingsUpdate();'>
+					<label id='graph_range_lbl' for='graph_range'>Graph Max Range (100)</label><br><br>
+					
+					<input type="checkbox" class='custcheck' id="fillgraph" name="fillgraph" value="" onclick="game.updateGraph()">
+					<label for="fillgraph">Fill Graph</label><br><br>
+				
+				</div>
+				
+				
+				<div id='t1_settings' style='display: none;'>
+					
+					<br>
+					<input type="checkbox" class='custcheck' id="Names" name="displaynames" value="" onclick="checkboxManager('displaynames')">
+					<label for="Names">Display all names</label><br>
+					<input type="checkbox" class='custcheck' id="Eyesight" name="displayeyesight" value="" onclick="checkboxManager('displayeyesight')">
+					<label for="Eyesight">Display all eyesights</label><br>
+					<input type="checkbox" class='custcheck' id="GoLines" name="displaygolines" value="" onclick="checkboxManager('displaygolines')">
+					<label for="GoLines">Display all travel lines</label><br>
+					<input type="checkbox" class='custcheck' id="HealthBar" name="displayhealthbar" value="" onclick="checkboxManager('displayhealthbar')">
+					<label for="HealthBar">Display all health bars</label><br>
+					
+				</div>
+				
+				<div id='t1_info' style='display: none;'>
+				
+					
+				
+					<p>Simulation Developed by <b>Bashir Flores Abusada</b> for a Software Design & Development Project (2021).</p>
+					<p>Tested and developed alongside <a href='https://www.microsoft.com/en-us/edge#platform' target="_blank">Microsoft Edge (Chromium)</a>.</p>
+					<p>Click <a href='./resources/documentation.pdf' target="_blank">here</a> to see documentation.</p>
+				
+				</div>
+				
+			</div>
+		</div>
+		<div id='toolbar2'>
+			<div id='menu2'>
+			
+				<br>
+				
+				<button id='t2_creature_btn' class='selected' onclick='toolbarManager(2,"t2_creature")'>Creature</button><br>
+				<button id='t2_environment_btn' class='unselected' onclick='toolbarManager(2,"t2_environment")'>Environment</button><br>
+				<button id='t2_spawn_btn' class='unselected' onclick='toolbarManager(2,"t2_spawn")'>Spawn</button><br>
+				<button id='t2_sim_set_btn' class='unselected' onclick='toolbarManager(2,"t2_sim_set")'>Simulation</button><br>
+
+				
+				
+			</div>
+			<div id='tools2'>
+				<div id='t2_creature'>
+					
+					<br>
+					<canvas id='selected_creature_viewmodel' heigh='50' width='100'></canvas>
+					<br><button class='tooltipbtn' id='selected_creature_immortal' onclick='game.immortalToggle();'>Immortality</button>
+					
+					<div id='selected_creature_view'>
+						
+						<p id='selected_creature_name'><b>Name:</b></p>
+						<p id='selected_creature_age'><b>Age:</b></p>
+						<p id='selected_creature_size'><b>Size:</b></p>
+						<p id='selected_creature_speed'><b>Speed:</b></p>
+						<p id='selected_creature_sense'><b>Sight:</b></p>
+						
+						<button class='tooltipbtn' id='selected_creature_edit_BTN' onclick='toggleShow(["selected_creature_view","selected_creature_edit"])'>Edit</button>
+						
+						<br><br>
+						
+						<label for='selected_creature_parent' style='font-weight: bold;'>Parent:</label>
+						<button class='tooltipbtn' id='selected_creature_parent' onclick='game.goParent();'>None</button>
+						
+						<br><br>
+						
+						<label for='selected_creature_children' style='font-weight: bold;'>Children:</label>
+						<select name='children' id='selected_creature_children'>
+							<optgroup label='(0)'></optgroup>
+						</select>
+						<button class='tooltipbtn' id='selected_creature_children_go' onclick='game.goToChild()'>Go</button>
+						
+						<br>
+						<br>
+						<br>
+						
+					</div>
+					
+					<div id='selected_creature_edit' style='display:none;'>
+					
+							<br><br>
+							<label for="selected_creature_edit_name" style='font-weight: bold;'>Name:</label>
+							<input id='selected_creature_edit_name' type='text' class='inputBox' placeholder=''>
+							<br>
+							<p id='selected_creature_edit_age'><b>Age:</b></p>
+							<label for="selected_creature_edit_size" style='font-weight: bold;'>Size:</label>
+							<input id='selected_creature_edit_size' type='number' class='inputBox' placeholder=''>
+							<br><br>
+							<label for="selected_creature_edit_speed" style='font-weight: bold;'>Speed:</label>
+							<input id='selected_creature_edit_speed' type='number' class='inputBox' placeholder=''>
+							<br><br>
+							<label for="selected_creature_edit_sense" style='font-weight: bold;'>Sight:</label>
+							<input id='selected_creature_edit_sense' type='number' class='inputBox' placeholder=''>
+							<br><br>
+							<button class='tooltipbtn' id='selected_creature_edit_done' onclick='toggleShow(["selected_creature_view","selected_creature_edit"]);editSelected();'>Done</button>
+							
+					</div>
+				</div>
+				
+				<div id='t2_environment' style='display:none;'>
+				
+					
+				
+				</div>
+				
+				<div id='t2_spawn' style='display:none;'>
+				
+					
+				
+				</div>
+				
+				<div id='t2_sim_set' style='display:none;'>
+				
+					
+				
+				</div>
+				
+				
+			</div>
+		</div>
+		
+	</div>
+	
+</body>
+</html>
