@@ -6,9 +6,11 @@
 		body {
 			margin: 0;
 			padding: 0;
-			background-color: #CCCCCC;
+			background-color: #212121;
 			overflow: hidden;
-			font-family: arial;
+			font-family: calibri;
+			color: #EDEDEE;
+			font-size: 18px;
 		}
 	
 		#canvasContainer {
@@ -20,13 +22,13 @@
 
 		#selected_creature_viewmodel {
 		
-			background-color: #FFFFFF;
+			background-color: #FDFDFF;
 		
 		}
 		
 		#graph1 {
 		
-			background-color: #FFFFFF;
+			background-color: #FDFDFF;
 		
 		}
 
@@ -34,7 +36,7 @@
 			padding: 0;
 			display: inline;
 			position: inline;
-			background-color: #FFFFFF;
+			background-color: #FDFDFF;
 			margin: 0;
 			left: 0;
 			right: 0;
@@ -95,10 +97,10 @@
 		
 		.selected {
 		
-			background-color: #0300FF;
-			color: #FFFFFF;
+			background-color: #0DD4C0;
+			color: #000000;
 			border: none;
-			font-size: 20px;
+			font-size: 25px;
 			margin-bottom: 5px;
 			line-height: 30px;
 		
@@ -106,10 +108,10 @@
 		
 		.unselected {
 		
-			background-color: #FFFFFF;
-			color: black;
+			background-color: #090909;
+			color: #FDFDFF;
 			border: none;
-			font-size: 20px;
+			font-size: 25px;
 			margin-bottom: 5px;
 			line-height: 30px;
 		
@@ -117,10 +119,12 @@
 		
 		.tooltipbtn {
 		
-			background-color: #FFFFFF;
-			color: black;
+			background-color: #090909;
+			color: #FDFDFF;
 			border: none;
 			width: auto;
+			padding: 5px;
+			font-size: 15px;
 		}
 		
 		.inputBox {
@@ -133,7 +137,7 @@
 			width: 33%;
 			height: 15px;
 			border-radius: 5px;  
-			background: #FFFFFF;
+			background: #090909;
 			outline: none;
 			opacity: 1;
 			-webkit-transition: .2s;
@@ -146,7 +150,7 @@
 			width: 15px;
 			height: 15px;
 			border-radius: 50%; 
-			background: #0300FF;
+			background: #0DD4C0;
 			cursor: pointer;
 			
 		}
@@ -155,35 +159,34 @@
 			width: 15px;
 			height: 15px;
 			border-radius: 50%;
-			background: #0300FF;
+			background: #0DD4C0;
 			cursor: pointer;
 		}
 
 		.custcheck {
 		
-			background: #FFFFFF;
+			background: #FDFDFF;
 		
 		}
 		
 		.custcheck input:checked {
 		
-			background: #FFFFFF;
+			background: #FDFDFF;
 		
 		}
 		
 		#title {
 			text-align: center;
-			color: #0300FF;
-			font-size: 50px;
-			-webkit-text-stroke: 1px #FFFFFF;
+			color: #0DD4C0;
+			font-size: 55px;
 			line-height: 0;
 		}
 		
 		#titleName {
 			text-align: center;
-			color: #FFFFFF;
+			color: #FDFDFF;
 			line-height: 0;
-			font-size: 12.5px;
+			font-size: 15px;
 		}
 		
 		#watermark {
@@ -200,7 +203,26 @@
 		button {
 		
 			width: 100%;
-			background-color: #FFFFFF;
+			background-color: #090909;
+			color: #FDFDFF
+		
+		}
+		
+		::-webkit-scrollbar {
+			width: 1em;
+		}
+
+		::-webkit-scrollbar-track {
+			background-color: #FDFDFF;
+		}
+
+		::-webkit-scrollbar-thumb {
+			background-color: #090909;
+		}
+		
+		a {
+		
+			color: #0DD4C0;
 		
 		}
 		
@@ -316,7 +338,7 @@
 				
 					<p>Simulation Developed by <b>Bashir Flores Abusada</b> for a Software Design & Development Project (2021).</p>
 					<p>Tested and developed alongside <a href='https://www.microsoft.com/en-us/edge#platform' target="_blank">Microsoft Edge (Chromium)</a>.</p>
-					<p>Click <a href='./resources/documentation.pdf' target="_blank">here</a> to see documentation.</p>
+					<p>Click <a href='./documentation.pdf' target="_blank">here</a> to see documentation.</p>
 				
 				</div>
 				
