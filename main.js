@@ -495,9 +495,6 @@ class game {
 		
 		this.scCtx.clearRect(0, 0, this.scCanvas.width, this.scCanvas.height);
 		
-		this.scCtx.rect(0,0,this.scCanvas.width,this.scCanvas.height);
-		this.scCtx.lineWidth = 6 * this.scale;
-		this.scCtx.stroke();
 		
 		if(c != undefined) {
 		
@@ -1030,7 +1027,7 @@ class game {
 			for(var i = 1; i < graphData.length; i++){
 				
 				this.gpCtx.beginPath();
-					this.gpCtx.strokeStyle = `rgb(3,0,255)`;
+					this.gpCtx.strokeStyle = `rgb(13,212,192)`;
 					this.gpCtx.lineWidth = 3 * this.scale;
 					this.gpCtx.moveTo(((i-1)/(graphData.length-1)) * this.gpCanvas.width, (1 - ((graphData[i-1] - min) / (max-min))) * this.gpCanvas.height);
 					this.gpCtx.lineTo(((i)/(graphData.length-1)) * this.gpCanvas.width, (1 - ((graphData[i] - min) / (max-min))) * this.gpCanvas.height);
@@ -1041,7 +1038,7 @@ class game {
 			
 			if(document.getElementById('fillgraph').checked == true) {
 				this.gpCtx.beginPath();
-					this.gpCtx.fillStyle = `rgba(3,0,255,0.5)`;
+					this.gpCtx.fillStyle = `rgba(13,212,192,0.5)`;
 					this.gpCtx.moveTo(0,this.gpCanvas.height);
 
 					for(var i = 0; i < graphData.length; i++){
