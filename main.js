@@ -90,6 +90,9 @@ class game {
 		this.graphRate = 2;
 		
 		this.toGraph = this.sizeData;
+		
+		this.foodLimit = 100;
+		this.foodNutrition = 2000;
 	
 	}
 	
@@ -279,27 +282,44 @@ class game {
 		return IDout;
 	}
 	
-	genFood(amount) {
+	genFood() {
 		
 		this.genKeys();
 		
-		for(var i = 0; i < amount; i++) {
+		if(this.foodKeys.length > this.foodLimit) {
 			
-			
-			
-			var newFood = {	
-				x: Math.random() * 1920,
-				y: Math.random() * (1920 / this.aspect),
-				size: 5,
-				eaten: false,
-				id: 0
+			for(var i = 0; i < this.foodKeys.length - this.foodLimit; i++) {
+				
+				delete this.foodList[this.foodKeys[i]];
+				
 			}
 			
-			var newID = this.genFoodID(newFood.x, newFood.y);
-			newFood.id = newID;
+		}
 		
-			this.foodList[newID] = newFood;
+		this.genKeys();
+		
+		if(this.foodKeys.length < this.foodLimit) {
+		
+		
+			for(var i = 0; i < this.foodLimit - this.foodKeys.length; i++) {
+				
+				
+				
+				var newFood = {	
+					x: Math.random() * 1920,
+					y: Math.random() * (1920 / this.aspect),
+					size: 5,
+					eaten: false,
+					id: 0
+				}
+				
+				var newID = this.genFoodID(newFood.x, newFood.y);
+				newFood.id = newID;
 			
+				this.foodList[newID] = newFood;
+				
+			}
+		
 		}
 		
 	}
@@ -524,7 +544,6 @@ class game {
 		
 		var toKill = [];
 		
-		var counter = 0;
 		for(var a = 0; a < this.foodKeys.length; a++){
 			
 			var f = this.foodList[this.foodKeys[a]];
@@ -532,12 +551,11 @@ class game {
 			if(f.eaten == true){
 				
 				delete this.foodList[this.foodKeys[a]];
-				counter++;
 				
 			}
 			
 		}
-		this.genFood(counter);
+		this.genFood();
 		
 		
 		for(var i = 0; i < this.creatureKeys.length; i++) {
@@ -644,8 +662,8 @@ class game {
 					
 						f.eaten = true;
 						c.state = 'idle';
-						c.health += 2000;
-						c.extraHealth += 2000*0.05;
+						c.health += parseFloat(this.foodNutrition);
+						c.extraHealth += parseFloat(this.foodNutrition)*0.05;
 					}
 				} else {this.AI_moveTo(id,false,false,false);}
 			} else {c.state = 'idle';}
@@ -1124,7 +1142,6 @@ game = new game('gameCanvas');
 
 //SetUP
 updateWindowManager();
-game.genFood(125);
 game.genCreatureRandom(50);
 
 //EventListeners
@@ -1176,7 +1193,7 @@ function checkboxManager(box) {
 	}
 	
 var t1 = ['t1_main','t1_graph','t1_info','t1_settings'];
-var t2 = ['t2_creature','t2_environment','t2_spawn','t2_sim_set'];
+var t2 = ['t2_creature','t2_environment','t2_spawn'];
 
 function toolbarManager(side,tab) {
 
@@ -1274,6 +1291,18 @@ function graphSettingsUpdate() {
 	document.getElementById('graph_range_lbl').innerHTML = `Graph Max Range (${game.graphRange})`;
 	
 	game.updateGraph();
+	
+}
+
+function foodSettingsUpdate() {
+	
+	game.foodLimit = document.getElementById('foodLimit').value;
+	document.getElementById('foodLimit_lbl').innerHTML = `Food Limit (${game.foodLimit})`;
+	
+	game.foodNutrition = document.getElementById('foodNutrition').value;
+	document.getElementById('foodNutrition_lbl').innerHTML = `Food Nutrition (${game.foodNutrition} hp)`;
+	
+	document.getElementById('nutritionPool').innerHTML = `<b>World Nutrition:</b> ${(game.foodNutrition * game.foodLimit).toLocaleString('en-US')} hp`;
 	
 }
 
