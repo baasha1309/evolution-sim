@@ -315,7 +315,7 @@
 				<button id='t1_main_btn' class='selected' onclick='toolbarManager(1,"t1_main")'>Overview</button><br>
 				<button id='t1_graph_btn' class='unselected' onclick='toolbarManager(1,"t1_graph")'>Graph</button><br>	
 				<button id='t1_settings_btn' class='unselected' onclick='toolbarManager(1,"t1_settings")'>Settings</button><br>
-				<button id='t1_info_btn' class='unselected' onclick='toolbarManager(1,"t1_info")'>Info</button>
+				<button id='t1_info_btn' class='unselected' onclick='toolbarManager(1,"t1_info")'>Info</button><br>
 				
 				<br>
 				
@@ -336,6 +336,19 @@
 					<p id='gametime'></p>
 					
 					<br>
+					
+					<button class='tooltipbtn' id='help_overview' onclick='toggleShow(["overview_help"])' style='text-align:left;'><i>Help</i></button>
+						
+					<div id='overview_help' style='display: none;'>
+					
+						<p>These help buttons are spread throughout the application, click on them to learn how to use specific aspects of the simulation.</p>
+						<p>Basically, creatures are trying to eat to survive and reproduce, passing their traits on to their offspring, these traits will mutate over generations. Over time, traits favourable in the environment will become more common, you can visualise this in the above display, by selecting individual creatures, or by using the graph!</p>
+						<p>Have fun!</p>
+					
+					
+					</div>
+					
+					<br><br><br>
 				
 				</div>
 				
@@ -381,14 +394,29 @@
 					<label id='graph_range_lbl' for='graph_range'>Graph Max Range (100)</label><br><br>
 					
 					<input type="checkbox" class='custcheck' id="fillgraph" name="fillgraph" value="" onclick="game.updateGraph()">
-					<label for="fillgraph">Fill Graph</label><br><br>
+					<label for="fillgraph">Fill Graph</label><br>
+					
+					<br>
+					
+					<button class='tooltipbtn' id='help_graph' onclick='toggleShow(["graph_help"])'><i>Help</i></button>
+						
+					<div id='graph_help' style='display: none;'>
+					
+						<p>This graph displays data over time, the value at the top left is tha maximum of the data set, the value at the bottom left is the minimum, and the one on the right side is the latest value. You can change the data set with the dropdown menu below the graph.</p>
+						<p>The data update time slider changes the rate at which data is collected. The data limit slider stes the maximum length of data arrays. And the graph max range slider sets the maximum number of points displayed on the graph. The fill graph button will fill the lower area of the graph.</p>
+						<p>Please note increasing the last two sliders may decrease performance on slower devices.</p>
+					
+					
+					</div>
+					
+					<br><br><br>
 				
 				</div>
 				
 				
 				<div id='t1_settings' style='display: none;'>
 					
-					<br>
+					<p><b>RENDER SETTINGS</b></p>
 					<input type="checkbox" class='custcheck' id="Names" name="displaynames" value="" onclick="checkboxManager('displaynames')">
 					<label for="Names">Display all names</label><br>
 					<input type="checkbox" class='custcheck' id="Eyesight" name="displayeyesight" value="" onclick="checkboxManager('displayeyesight')">
@@ -397,6 +425,21 @@
 					<label for="GoLines">Display all travel lines</label><br>
 					<input type="checkbox" class='custcheck' id="HealthBar" name="displayhealthbar" value="" onclick="checkboxManager('displayhealthbar')">
 					<label for="HealthBar">Display all health bars</label><br>
+					
+					
+					<br>
+					
+					<button class='tooltipbtn' id='help_settings' onclick='toggleShow(["settings_help"])'><i>Help</i></button>
+						
+					<div id='settings_help' style='display: none;'>
+					
+						<p>Toggles what things are displayed on the canvas, turning these should increase performance, especially with high creature populations.</p>
+					
+					
+					</div>
+					
+					<br><br><br>
+					
 					
 				</div>
 				
@@ -408,6 +451,19 @@
 					<p>This simulation is best viewed on a 16:9 monitor in fullscreen <i>(press "f11" to enter fullscreen)</i>.</p>
 					<p>Tested on <a href='https://www.microsoft.com/en-us/edge#platform' target="_blank">Microsoft Edge (Chromium)</a> & <a href='https://www.google.com.au/chrome/' target="_blank">Google Chrome</a>.</p>
 					<p>Click <a href='./documentation.pdf' target="_blank">here</a> to see documentation.</p>
+					
+					<br>
+					
+					<button class='tooltipbtn' id='help_info' onclick='toggleShow(["info_help"])'><i>Help</i></button>
+						
+					<div id='info_help' style='display: none;'>
+					
+						<p>This is here for consistency...</p>
+						<p>Hope you enjoy using the simulation. :)</p>
+					
+					</div>
+					
+					<br><br><br>
 				
 				</div>
 				
@@ -421,6 +477,8 @@
 				<button id='t2_creature_btn' class='selected' onclick='toolbarManager(2,"t2_creature")'>Creature</button><br>
 				<button id='t2_environment_btn' class='unselected' onclick='toolbarManager(2,"t2_environment")'>Simulation</button><br>
 				<button id='t2_spawn_btn' class='unselected' onclick='toolbarManager(2,"t2_spawn")'>Spawn</button><br>
+				
+				<br>
 
 				
 				
@@ -456,8 +514,6 @@
 						<button class='tooltipbtn' id='selected_creature_children_go' onclick='game.goToChild()'>Go</button>
 						
 						<br>
-						<br>
-						<br>
 						
 					</div>
 					
@@ -477,24 +533,65 @@
 							<label for="selected_creature_edit_sense" style='font-weight: bold;'>Sight:</label>
 							<input id='selected_creature_edit_sense' type='number' class='inputBox' placeholder=''>
 							<br><br>
-							<button class='tooltipbtn' id='selected_creature_edit_done' onclick='toggleShow(["selected_creature_view","selected_creature_edit"]);editSelected();'>Done</button><br><br>
+							<button class='tooltipbtn' id='selected_creature_edit_done' onclick='toggleShow(["selected_creature_view","selected_creature_edit"]);editSelected();'>Done</button>
+							
+							<br>
 							
 					</div>
+					
+					<br>
+					
+					<button class='tooltipbtn' id='help_selected' onclick='toggleShow(["selected_creature_help"])'><i>Help</i></button>
+						
+					<div id='selected_creature_help' style='display: none;'>
+					
+						<p>Click on any creature on the screen, then their stats will be displayed above.</p>
+						<p>You can then press edit to change any trait, just type it into the input boxes and press the "Done" button.</p>
+						<p>You can press the parent button to go to the creature's parent. And use the children dropdown to select a child and press go to go to it.</p>
+					
+					</div>
+						
+					
+					<br>
+					<br>
+					<br>
+					
 				</div>
 				
 				<div id='t2_environment' style='display:none;'>
 				
 					<br>
 				
-					<input style='width=auto' id='foodLimit' type='range' class='slider' min='25' max='500' step='25' value='100' oninput='foodSettingsUpdate();'>
+					<input style='width=auto' id='foodLimit' type='range' class='slider' min='25' max='500' step='25' value='100' oninput='environmentSettingsUpdate();'>
 					<label id='foodLimit_lbl' for='foodLimit'>Food Limit (100)</label><br>
 					
-					<input style='width=auto' id='foodNutrition' type='range' class='slider' min='0' max='4000' step='100' value='2000' oninput='foodSettingsUpdate();'>
+					<input style='width=auto' id='foodNutrition' type='range' class='slider' min='0' max='4000' step='100' value='2000' oninput='environmentSettingsUpdate();'>
 					<label id='foodNutrition_lbl' for='foodNutrition'>Food Nutrition (2000 hp)</label><br>
+					
+					<input style='width=auto' id='mutationRate' type='range' class='slider' min='0' max='1' step='0.01' value='0.05' oninput='environmentSettingsUpdate();'>
+					<label id='mutationRate_lbl' for='mutationRate'>Mutation Rate (+= 5%)</label><br>
 					
 					<p id='nutritionPool'><b>World Nutrition:</b> 200,000 hp</p>
 					<p id='avemaxhealth'><b>Average Max Health:</b> waiting for data...</p>
 					<p id='expectedmaxpop'><b>Expected Max Population:</b> waiting for data...</p>
+					
+					<br>
+					
+					<button class='tooltipbtn' id='help_env' onclick='toggleShow(["environment_help"])'><i>Help</i></button>
+						
+					<div id='environment_help' style='display: none;'>
+					
+						<p>The food limit slider will limit how much food is spawned and rendered.</p>
+						<p>The food nutrition slider will chnage the nutritional value of the food (how much they will heal a creature).</p>
+						<p>Please note that having a lot of food will slow down the simulation, and will also lead to more creatures, which will have the same effect.</p>
+						<p>The mutation rate slider will change by how much a child's inheritable traits mutate.</p>
+						<p>World nutrition is how much HP is found in all the food on the map. And the expected population is a rough estimate of what to expect.</p>
+					
+					</div>
+					
+					<br>
+					<br>
+					<br>
 				
 				</div>
 				
@@ -518,10 +615,26 @@
 					<input id='cust_sense' type='number' class='inputBox' placeholder='Recommended 3~10 (m)'>
 					<br><br>
 					<label for="cust_amount" style='font-weight: bold;'>Amount:</label>
-					<input id='cust_amount' type='number' class='inputBox' placeholder='How many to spawn'>
+					<input id='cust_amount' type='number' class='inputBox' placeholder='How many to spawn (use with care)'>
 					<br><br>
 					<button class='tooltipbtn' id='cust_spawn' onclick='game.genCreatureCustom();'>Spawn Custom Creature(s)</button><br>
 					<p><i>Leave blank for random value(s).</i></p><br>
+					<button class='tooltipbtn' id='purgeCreatures' onclick='game.purgeAll()' style='text-align: center; font-weight: bold;'>Kill All Creatures</button>
+					
+					<br><br>
+					
+					<button class='tooltipbtn' id='help_spawn' onclick='toggleShow(["spawn_help"])'><i>Help</i></button>
+						
+					<div id='spawn_help' style='display: none;'>
+					
+						<p>Use the two top buttons to spawn creatures with random traits.</p>
+						<p>Use the input boxes in the custom creature menu to create a creature and then press spawn to place it on a random position on the screen.</p>
+						<p>Kill all creatures does what it sounds like.</p>
+					
+					
+					</div>
+					
+					<br><br><br>
 				
 				</div>
 				
