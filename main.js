@@ -159,14 +159,18 @@ class game {
 	}
 	
 	immortalToggle() {
-	
+		
+		if(this.selectedCreature != undefined) {
+		
 		if(this.selectedCreature.immortal == false) {
 			this.selectedCreature.immortal = true; 
 			this.selectedCreature.title = 'Immortal';
 		} else {
 			this.selectedCreature.immortal = false; 
 			this.selectedCreature.title = '';
-			}
+		}
+			
+		}
 	
 	}
 	
@@ -214,6 +218,40 @@ class game {
 	
 	}
 	
+	buildCreature(newX, newY, newSize, newSpeed, newSense, newName, newPregnancyhealth) {
+		
+		var newCreature = {
+			state: 'idle',
+			x: newX,
+			y: newY,
+			angle: 0,
+			goingX: newX,
+			goingY: newY,
+			goingToDistance: 0,
+			size: newSize,
+			speed: newSpeed,
+			health: (Math.pow(newSize,2)*this.healthFactor),
+			maxhealth: (Math.pow(newSize,2)*this.healthFactor),
+			targetID: 0,
+			sense: newSense,
+			name: newName,
+			extraHealth: 0,
+			birthThreshold: newSize*this.healthFactor,
+			age: 0,
+			title: '',
+			pregnancyhealth: newPregnancyhealth,
+			id: 0,
+			selected: false,
+			immortal: false,
+			agePenalty: 1,
+			parent: false,
+			children: []
+		};
+		
+		return newCreature;
+		
+	}
+	
 	genCreatureRandom(amount) {
 		
 		this.genKeys();
@@ -229,44 +267,90 @@ class game {
 			var newName = this.names[newNameID];
 			var newPregnancyhealth = 0.33;
 		
-			var newCreature = {
-					state: 'idle',
-					x: newX,
-					y: newY,
-					angle: 0,
-					goingX: newX,
-					goingY: newY,
-					goingToDistance: 0,
-					size: newSize,
-					speed: newSpeed,
-					health: (Math.pow(newSize,2)*this.healthFactor),
-					maxhealth: (Math.pow(newSize,2)*this.healthFactor),
-					targetID: 0,
-					sense: newSense,
-					name: newName,
-					extraHealth: 0,
-					birthThreshold: newSize*this.healthFactor,
-					age: 0,
-					title: '',
-					pregnancyhealth: newPregnancyhealth,
-					id: 0,
-					selected: false,
-					immortal: false,
-					agePenalty: 1,
-					parent: false,
-					children: []
-				};
+			var newCreature = this.buildCreature(newX, newY, newSize, newSpeed, newSense, newName, newPregnancyhealth);
 			
-				var newID = this.genCreatureID();
+			var newID = this.genCreatureID();
+		
+			newCreature.id = newID;
+		
+			this.creatureList[newID] = newCreature;
+		
+			this.birthCount++;
 			
-				newCreature.id = newID;
-			
-				this.creatureList[newID] = newCreature;
-			
-				this.birthCount++;
-				
-				this.pastCreatures[newCreature.id] = newCreature;
+			this.pastCreatures[newCreature.id] = newCreature;
 		}
+	}
+	
+	genCreatureBirth(parentID) {
+		
+		var parent = this.creatureList[this.creatureKeys[parentID]];
+		var newX = parent.x;
+		var newY = parent.y;
+		var newSize = parent.size * this.getMutation();
+		var newSpeed = parent.speed * this.getMutation();
+		var newSense = parent.sense * this.getMutation();
+		var newNameID = Math.round(Math.random() * this.names.length);
+		var newName = this.names[newNameID];
+		var newPregnancyhealth = parent.pregnancyhealth * this.getMutation();
+		
+		var newCreature = this.buildCreature(newX, newY, newSize, newSpeed, newSense, newName, newPregnancyhealth);
+		
+		newCreature.state = 'birth';
+		newCreature.health = parent.health * 0.5;
+		newCreature.parent = parent.id;
+		
+		if(parent.immortal == true) {newCreature.health = newCreature.maxhealth}
+		
+		var newID = this.genCreatureID();
+		
+		newCreature.id = newID;
+		
+		this.creatureList[newID] = newCreature;
+		
+		parent.children.push(newCreature.id);
+		
+		this.birthCount++;
+		
+		this.pastCreatures[newCreature.id] = newCreature;
+		
+	}
+	
+	genCreatureCustom() {
+	
+		if(document.getElementById('cust_amount').value == '') {document.getElementById('cust_amount').value = 1;}
+	
+		for(var i = 0; i < Math.abs(document.getElementById('cust_amount').value); i++) {
+		
+			var newX = (Math.random() * 1920);
+			var newY = (Math.random() * (1920 / this.aspect));
+			
+			if(document.getElementById('cust_size').value == '') {var newSize = (Math.random() * 20) + 10;}
+			else {var newSize = document.getElementById('cust_size').value * 20 / 100 / 2;}
+			
+			if(document.getElementById('cust_speed').value == '') {var newSpeed =  (Math.random() * 2.5) + 0.5;}
+			else {var newSpeed = document.getElementById('cust_speed').value / 3;}
+			
+			if(document.getElementById('cust_sense').value == '') {var newSense = (Math.random() * 115) + 35;}
+			else {var newSense = document.getElementById('cust_sense').value * 20;}
+			
+			var newNameID = Math.round(Math.random() * this.names.length);
+			var newName = this.names[newNameID];
+			var newPregnancyhealth = 0.33;
+			
+			var newCreature = this.buildCreature(newX, newY, newSize, newSpeed, newSense, newName, newPregnancyhealth);
+			
+			var newID = this.genCreatureID();
+			
+			newCreature.id = newID;
+			
+			this.creatureList[newID] = newCreature;
+			
+			this.birthCount++;
+			
+			this.pastCreatures[newCreature.id] = newCreature;
+		
+		}
+		
 	}
 	
 	genCreatureID() {
@@ -344,62 +428,7 @@ class game {
 		
 	}
 	
-	genCreatureBirth(parentID) {
-		
-		var parent = this.creatureList[this.creatureKeys[parentID]];
-		var newX = parent.x;
-		var newY = parent.y;
-		var newSize = parent.size * this.getMutation();
-		var newSpeed = parent.speed * this.getMutation();
-		var newSense = parent.sense * this.getMutation();
-		var newNameID = Math.round(Math.random() * this.names.length);
-		var newName = this.names[newNameID];
-		var newPregnancyhealth = parent.pregnancyhealth * this.getMutation();
-		
-		var newCreature = {
-				state: 'birth',
-				x: newX,
-				y: newY,
-				angle: 0,
-				goingX: newX,
-				goingY: newY,
-				goingToSteps: 0,
-				size: newSize,
-				speed: newSpeed,
-				health: parent.health * 0.5,
-				maxhealth: Math.pow(newSize,2)*this.healthFactor,
-				targetID: 0,
-				sense: newSense,
-				name: newName,
-				extraHealth: 0,
-				goingToDistance: 0,
-				birthThreshold: newSize*this.healthFactor,
-				age: 0,
-				title: '',
-				pregnancyhealth: newPregnancyhealth,
-				id: 0,
-				selected: false,
-				immortal: false,
-				agePenalty: 1,
-				parent: parent.id,
-				children: []
-			};
-		
-		if(parent.immortal == true) {newCreature.health = newCreature.maxhealth}
-		
-		var newID = this.genCreatureID();
-		
-		newCreature.id = newID;
-		
-		this.creatureList[newID] = newCreature;
-		
-		parent.children.push(newCreature.id);
-		
-		this.birthCount++;
-		
-		this.pastCreatures[newCreature.id] = newCreature;
-		
-	}
+	
 	
 	render() {
 		
@@ -1169,7 +1198,11 @@ game = new game('gameCanvas');
 updateWindowManager();
 game.genCreatureRandom(50);
 
-//EventListeners
+
+
+
+//=============================================== UI Functions =============================================================
+
 
 //Window Resize
 window.addEventListener("resize", updateWindowManager);
@@ -1180,8 +1213,9 @@ document.addEventListener("mousedown", mouseDownManager);
 function mouseDownManager(e) {game.mouseDown(e);}
 
 
-//========================================================================================================================
 
+var t1 = ['t1_main','t1_graph','t1_info','t1_settings'];
+var t2 = ['t2_creature','t2_environment','t2_spawn'];
 
 function updateUI() {
 	
@@ -1218,9 +1252,6 @@ function checkboxManager(box) {
 		}
 		
 	}
-	
-var t1 = ['t1_main','t1_graph','t1_info','t1_settings'];
-var t2 = ['t2_creature','t2_environment','t2_spawn'];
 
 function toolbarManager(side,tab) {
 
@@ -1340,7 +1371,7 @@ function foodSettingsUpdate() {
 	}
 }
 
-
+//GAME LOOP
 
 var interval2 = setInterval(gatherData, 1000 * game.graphRate);
 

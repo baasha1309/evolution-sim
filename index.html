@@ -97,6 +97,7 @@
 		
 		.selected {
 		
+			transition-duration: 0.4s;
 			background-color: #0DD4C0;
 			color: #000000;
 			border: none;
@@ -106,8 +107,30 @@
 		
 		}
 		
-		.unselected {
+		.selected:hover {
 		
+			background-color: #0DD4C0;
+			color: #FDFDFF;
+			border: none;
+			font-size: 25px;
+			margin-bottom: 5px;
+			line-height: 30px;
+		
+		}
+		
+		.selected:active {
+			transition-duration: 2s;
+			background-color: #FF1111;
+			color: #FDFDFF;
+			border: none;
+			font-size: 25px;
+			margin-bottom: 5px;
+			line-height: 30px;
+		}
+		
+		.unselected {
+			
+			transition-duration: 0.4s;
 			background-color: #090909;
 			color: #FDFDFF;
 			border: none;
@@ -117,8 +140,31 @@
 		
 		}
 		
+		.unselected:hover {
+		
+			background-color: #090909;
+			color: #0DD4C0;
+			border: none;
+			font-size: 25px;
+			margin-bottom: 5px;
+			line-height: 30px;
+		
+		}
+		
+		.unselected:active {
+		
+			background-color: #0DD4C0;
+			color: #0DD4C0;
+			border: none;
+			font-size: 25px;
+			margin-bottom: 5px;
+			line-height: 30px;
+		
+		}
+		
 		.tooltipbtn {
 		
+			transition-duration: 0.4s;
 			background-color: #090909;
 			color: #FDFDFF;
 			border: none;
@@ -127,8 +173,29 @@
 			font-size: 15px;
 		}
 		
+		.tooltipbtn:hover {
+		
+			background-color: #090909;
+			color: #0DD4C0;
+			border: none;
+			width: auto;
+			padding: 5px;
+			font-size: 15px;
+		}
+		
+		.tooltipbtn:active {
+		
+			background-color: #0DD4C0;
+			color: #0DD4C0;
+			border: none;
+			width: auto;
+			padding: 5px;
+			font-size: 15px;
+		}
+		
 		.inputBox {
 		
+			width: 50%;
 		
 		}
 		
@@ -338,7 +405,8 @@
 					
 				
 					<p>Simulation Developed by <b>Bashir Flores Abusada</b> for a Software Design & Development Project (2021).</p>
-					<p>Tested and developed alongside <a href='https://www.microsoft.com/en-us/edge#platform' target="_blank">Microsoft Edge (Chromium)</a>.</p>
+					<p>This simulation is best viewed on a 16:9 monitor in fullscreen <i>(press "f11" to enter fullscreen)</i>.</p>
+					<p>Tested on <a href='https://www.microsoft.com/en-us/edge#platform' target="_blank">Microsoft Edge (Chromium)</a> & <a href='https://www.google.com.au/chrome/' target="_blank">Google Chrome</a>.</p>
 					<p>Click <a href='./documentation.pdf' target="_blank">here</a> to see documentation.</p>
 				
 				</div>
@@ -409,7 +477,7 @@
 							<label for="selected_creature_edit_sense" style='font-weight: bold;'>Sight:</label>
 							<input id='selected_creature_edit_sense' type='number' class='inputBox' placeholder=''>
 							<br><br>
-							<button class='tooltipbtn' id='selected_creature_edit_done' onclick='toggleShow(["selected_creature_view","selected_creature_edit"]);editSelected();'>Done</button>
+							<button class='tooltipbtn' id='selected_creature_edit_done' onclick='toggleShow(["selected_creature_view","selected_creature_edit"]);editSelected();'>Done</button><br><br>
 							
 					</div>
 				</div>
@@ -432,7 +500,28 @@
 				
 				<div id='t2_spawn' style='display:none;'>
 				
+					<br>
+				
+					<button class='tooltipbtn' id='genrandom' onclick='game.genCreatureRandom(10)'>Spawn 10 Random Creatures</button><br><br>
+					<button class='tooltipbtn' id='genrandom' onclick='game.genCreatureRandom(100)'>Spawn 100 Random Creatures</button><br>
 					
+					<br>
+					
+					<p><b>CUSTOM CREATURE</b></p>
+					<label for="cust_size" style='font-weight: bold;'>Size:</label>
+					<input id='cust_size' type='number' class='inputBox' placeholder='Recommended 100~200 (cm wide)'>
+					<br><br>
+					<label for="cust_speed" style='font-weight: bold;'>Speed:</label>
+					<input id='cust_speed' type='number' class='inputBox' placeholder='Recommended 2~5 (m/s)'>
+					<br><br>
+					<label for="cust_sense" style='font-weight: bold;'>Sight:</label>
+					<input id='cust_sense' type='number' class='inputBox' placeholder='Recommended 3~10 (m)'>
+					<br><br>
+					<label for="cust_amount" style='font-weight: bold;'>Amount:</label>
+					<input id='cust_amount' type='number' class='inputBox' placeholder='How many to spawn'>
+					<br><br>
+					<button class='tooltipbtn' id='cust_spawn' onclick='game.genCreatureCustom();'>Spawn Custom Creature(s)</button><br>
+					<p><i>Leave blank for random value(s).</i></p><br>
 				
 				</div>
 				
