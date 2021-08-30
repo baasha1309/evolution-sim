@@ -80,6 +80,7 @@ class game {
 		this.childrenCountData = [];
 		this.childrenCountData2 = [];
 		this.pregnancyhealthData = [];
+		this.maxHealthData = [];
 	
 		this.idoffset = 0;
 		
@@ -915,6 +916,22 @@ class game {
 		
 	}
 	
+	getMaxHealth() {
+		
+		var totalHp = 0;
+		
+		for(var i = 0; i < this.creatureKeys.length; i++) {
+			
+			var c = this.creatureList[this.creatureKeys[i]];
+			
+			totalHp += c.maxhealth;
+			
+		}
+		
+		return totalHp / this.creatureKeys.length;
+		
+	}
+	
 	dataCollect() {
 		
 		this.genKeys();
@@ -980,6 +997,14 @@ class game {
 		if(this.pregnancyhealthData.length > this.dataCollectAmount) {
 			
 			this.pregnancyhealthData.splice(0,this.pregnancyhealthData.length - this.dataCollectAmount);
+			
+		}
+		
+		this.maxHealthData.push(this.getMaxHealth());
+		
+		if(this.maxHealthData.length > this.dataCollectAmount) {
+			
+			this.maxHealthData.splice(0,this.maxHealthData.length - this.dataCollectAmount);
 			
 		}
 	}
@@ -1164,6 +1189,8 @@ function updateUI() {
 	
 	selectedCreatureStats();
 	
+	foodSettingsUpdate();
+	
 	document.getElementById('birthcount').innerHTML = `<b>Births:</b> ${game.birthCount}`;
 	document.getElementById('deathcount').innerHTML = `<b>Deaths:</b> ${game.deathCount}`;
 	document.getElementById('popcount').innerHTML = `<b>Population:</b> ${game.creatureKeys.length}`;
@@ -1304,6 +1331,13 @@ function foodSettingsUpdate() {
 	
 	document.getElementById('nutritionPool').innerHTML = `<b>World Nutrition:</b> ${(game.foodNutrition * game.foodLimit).toLocaleString('en-US')} hp`;
 	
+	if(game.maxHealthData.length > 0){
+	
+	
+	document.getElementById('avemaxhealth').innerHTML = `<b>Average Max Health:</b> ${(Math.round(game.maxHealthData[game.maxHealthData.length-1])).toLocaleString('en-US')} hp`;
+	document.getElementById('expectedmaxpop').innerHTML = `<b>Expected Max Population:</b> ${Number(((10 * game.foodNutrition * game.foodLimit)/game.maxHealthData[game.maxHealthData.length-1]).toPrecision(2))} Creatures`;
+	
+	}
 }
 
 
@@ -1322,8 +1356,8 @@ var interval = setInterval(gameManager, 1000/60);
 function gameManager() {
 	
 	game.sim_main();
-	updateUI();
 	game.render();
 	game.renderSC();
+	updateUI();
 	
 }
